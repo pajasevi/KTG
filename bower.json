@@ -1,0 +1,23 @@
+{
+  "name": "KTG",
+  "version": "0.0.0",
+  "authors": [
+    "pajasevi <pajaseviwow@gmail.com>"
+  ],
+  "description": "web for KTG",
+  "main": "index.html",
+  "license": "\"\"",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3",
+    "video.js": "~4.11.4",
+    "normalize-css": "~3.0.2"
+  }
+}
