@@ -1,18 +1,18 @@
+var KTG = {};
 var min_w = 300; // minimum video width allowed
 var vid_w_orig;  // original video dimensions
 var vid_h_orig;
 
-$(function() { // runs after DOM has loaded
-    
-    vid_w_orig = parseInt($('video').attr('width'));
-    vid_h_orig = parseInt($('video').attr('height'));
-    
-    $(window).resize(function () { resizeToCover(); });
-    $(window).trigger('resize');
-});
+KTG.videos = {
+  "intro" : "videos/intro.mp4",
+  "blink-cz" : "videos/cz_bliknuti.mp4",
+  "blink-en" : "videos/en_bliknuti.mp4",
+  "park-en" : "videos/en_vjezd.mp4",
+  "garage-cz" : "videos/cz_garaz.mp4"
+};
 
-function resizeToCover() {
-    
+KTG.resizeToCover = function() {
+
     // set the video viewport to the window size
     $('#video-wrap').width($(window).width());
     $('#video-wrap').height($(window).height());
@@ -32,3 +32,51 @@ function resizeToCover() {
     $('#video-wrap').scrollLeft(($('video').width() - $(window).width()) / 2);
     $('#video-wrap').scrollTop(($('video').height() - $(window).height()) / 2);
 };
+
+KTG.appendFirst = function() {
+  $('body').addClass('first-ended');
+};
+
+KTG.hideFirst = function() {
+  $('body').removeClass('first-ended');
+};
+
+KTG.videoPlay = function() {
+
+};
+
+
+$(function() { // runs after DOM has loaded
+
+  vid_w_orig = parseInt($('video').attr('width'));
+  vid_h_orig = parseInt($('video').attr('height'));
+
+  $(window).resize(function () { KTG.resizeToCover(); });
+  $(window).trigger('resize');
+
+  var ktgVideo = videojs('mainVideo');
+  ktgVideo.src({ type: "video/mp4", src: KTG.videos.intro });
+  ktgVideo.play();
+  ktgVideo.on('ended', function() {
+    KTG.appendFirst();
+  });
+
+
+
+
+  $('.lang-link.cz').on('mouseover', function() {
+    ktgVideo.src({ type: "video/mp4", src: KTG.videos['blink-cz'] });
+    ktgVideo.play();
+  });
+
+  $('.lang-link.en').on('mouseover', function() {
+    ktgVideo.src({ type: "video/mp4", src: KTG.videos['blink-en'] });
+    ktgVideo.play();
+  });
+
+  $('.lang-link').on('click', function() {
+    ktgVideo.src({ type: "video/mp4", src: KTG.videos['park-en'] });
+    ktgVideo.play();
+  });
+
+});
