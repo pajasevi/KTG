@@ -7,13 +7,18 @@ html, body {
     top: 0;
     overflow: hidden;
     z-index: -1; /* for accessing the video by click */
-    background: url('../img/bg1.png') no-repeat left center #000;
-	background-size: cover;
 }
 
-#mainVideo {
+.main-video {
+	position: absolute;
 	width: 100%;
 	height: 100%;
+	display: none;
+}
+
+#introVideo,
+#garageVideo {
+	display: block;
 }
 
 .lang-link {
@@ -26,7 +31,6 @@ html, body {
 		display: inline-block;
 		width: 37%;
 		height: 28%;
-		/*background: rgba(255, 0, 0, 0.3);*/
 
 		&.cz {
 			top: 39%;
