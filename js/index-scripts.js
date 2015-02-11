@@ -29,7 +29,7 @@ $(function() { // runs after DOM has loaded
   });
 
   enParkVideo.on('ended', function() {
-    window.location.href += "/cz-garage.html";
+    window.location.href += "cz-garage.html";
   });
 
   $('.lang-link.cz').on('mouseover', function() {

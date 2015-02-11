@@ -1,5 +1,12 @@
+@import 'fonts';
+@import 'variables';
+@import 'typography';
+@import 'buttons';
+
 html, body {
 	height: 100%;
+	color: #fff;
+	font-family: @content-font;
 }
 
 #video-wrap {
@@ -40,6 +47,34 @@ html, body {
 		&.en {
 			top: 35%;
 			left: 61%;
+		}
+	}
+}
+
+
+
+/* CONTENT */
+.content {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	bottom: 15px;
+	left: 15px;
+	padding: 6% 20%;
+	background: fade(#3f5696, 90%);
+	overflow: hidden;
+
+	.heading {
+		position: absolute;
+		top: 45px;
+		left: 75px;
+		font-family: @main-font;
+		font-size: 34px;
+		font-weight: 300;
+		text-transform: uppercase;
+
+		span {
+			font-weight: 500;
 		}
 	}
 }

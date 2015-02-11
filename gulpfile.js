@@ -14,7 +14,7 @@ var paths = {
   video: 'bower_components/video.js/dist/video-js/video.js',
   scripts: 'js/main.js',
   normalize: 'bower_components/normalize-css/normalize.css',
-  less: 'less/*'
+  less: 'less/main.less'
 };
 
 gulp.task('javascript', function () {
@@ -44,7 +44,7 @@ gulp.task('less', function() {
 gulp.task('watch', ['server'], function() {
   livereload.listen();
   gulp.watch(paths.scripts, ['javascript']);
-  gulp.watch(paths.less, ['less']);
+  gulp.watch('less/*', ['less']);
 });
 
 gulp.task('server', function(done) {
