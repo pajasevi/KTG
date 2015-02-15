@@ -12,12 +12,14 @@ html, body {
 #video-wrap {
     position: absolute;
     top: 0;
+
     overflow: hidden;
     z-index: -1; /* for accessing the video by click */
 }
 
 .main-video {
 	position: absolute;
+
 	width: 100%;
 	height: 100%;
 	display: none;
@@ -35,6 +37,7 @@ html, body {
 .first-ended {
 	.lang-link {
 		position: absolute;
+
 		display: inline-block;
 		width: 37%;
 		height: 28%;
@@ -51,6 +54,81 @@ html, body {
 	}
 }
 
+/* SIDEBAR */
+.sidebar {
+	display: none;
+
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 10;
+
+	width: 355px;
+	padding: 20px;
+
+	background: #17181a;
+	font-family: @main-font;
+
+	.heading {
+		font-family: @main-font;
+		font-size: 42px;
+		font-weight: 500;
+
+		text-transform: uppercase;
+		text-align: center;
+
+		border-bottom: 1px solid #3a539b;
+	}
+
+	.main-menu {
+		margin: 20px 0;
+		padding: 0;
+
+		font-size: 19px;
+		font-weight: 300;
+
+		list-style: none;
+
+		li {
+			margin: 10px 0;
+
+			text-align: center;
+			text-transform: uppercase;
+
+			a {
+				color: #fff;
+				text-decoration: none;
+
+				&:hover {
+					color: #fff;
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	.contact p {
+		font-family: @main-font;
+		font-size: 14px;
+		font-weight: 300;
+	}
+}
+
+/* OVERLAY */
+.overlay {
+	display: none;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9;
+
+	background: fade(#17181a, 60%);
+}
+
 
 
 /* CONTENT */
@@ -60,16 +138,20 @@ html, body {
 	right: 15px;
 	bottom: 15px;
 	left: 15px;
+
 	padding: 6% 20%;
+
 	background: fade(#3f5696, 90%);
 
 	.heading {
 		position: absolute;
 		top: 45px;
 		left: 75px;
+
 		font-family: @main-font;
 		font-size: 34px;
 		font-weight: 300;
+
 		text-transform: uppercase;
 
 		span {

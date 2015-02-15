@@ -7,10 +7,13 @@ $(function() { // runs after DOM has loaded
   $(window).trigger('resize');
 
   var introVideo = videojs('introVideo'),
-      czBlinkVideo = videojs('czBlinkVideo'),
-      enBlinkVideo = videojs('enBlinkVideo'),
+      czBlinkVideoOn = videojs('czBlinkVideoOn'),
+      czBlinkVideoOff = videojs('czBlinkVideoOff'),
+      enBlinkVideoOn = videojs('enBlinkVideoOn'),
+      enBlinkVideoOff = videojs('enBlinkVideoOff'),
       enParkVideo = videojs('enParkVideo');
 
+  // Intro video
 
   introVideo.play();
 
@@ -18,29 +21,63 @@ $(function() { // runs after DOM has loaded
     KTG.appendFirst();
   });
 
-  czBlinkVideo.on('ended', function() {
-    $('#czBlinkVideo').fadeOut( 100 );
-    czBlinkVideo.currentTime( 0 );
+  // CZ blink videos
+
+  czBlinkVideoOn.on('ended', function() {
+    $('#czBlinkVideoOn').fadeOut( 100 );
+    $('#czBlinkVideoOff').fadeIn( 100 );
   });
 
-  enBlinkVideo.on('ended', function() {
-    $('#enBlinkVideo').fadeOut( 100 );
-    enBlinkVideo.currentTime( 0 );
+  czBlinkVideoOff.on('ended', function() {
+    $('#czBlinkVideoOff').fadeOut( 100, function() {
+        czBlinkVideoOn.currentTime( 0 );
+        czBlinkVideoOff.currentTime( 0 );
+    });
   });
+
+  // EN blink videos
+
+  enBlinkVideoOn.on('ended', function() {
+    $('#enBlinkVideoOn').fadeOut( 100 );
+    $('#enBlinkVideoOff').fadeIn( 100 );
+  });
+
+  enBlinkVideoOff.on('ended', function() {
+    $('#enBlinkVideoOff').fadeOut( 100, function() {
+        enBlinkVideoOn.currentTime( 0 );
+        enBlinkVideoOff.currentTime( 0 );
+    });
+  });
+
+  // Parking videos
 
   enParkVideo.on('ended', function() {
     window.location.href += "cz-garage.html";
   });
 
+
+
+  // User Events
+
   $('.lang-link.cz').on('mouseover', function() {
-    $('#czBlinkVideo').fadeIn( 100 , function() {
-      czBlinkVideo.play();
+    $('#czBlinkVideoOn').fadeIn( 100 , function() {
+      czBlinkVideoOn.play();
     });
   });
 
+  $('.lang-link.cz').on('mouseout', function() {
+    czBlinkVideoOff.play();
+  });
+
   $('.lang-link.en').on('mouseover', function() {
-    $('#enBlinkVideo').fadeIn( 100 , function() {
-      enBlinkVideo.play();
+    $('#enBlinkVideoOn').fadeIn( 100 , function() {
+      enBlinkVideoOn.play();
+    });
+  });
+
+  $('.lang-link.en').on('mouseout', function() {
+    $('#enBlinkVideoOff').fadeIn( 100 , function() {
+      enBlinkVideoOff.play();
     });
   });
 

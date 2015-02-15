@@ -10,4 +10,13 @@ $(function() { // runs after DOM has loaded
 
   garageVideo.play();
 
+  garageVideo.on('ended', function() {
+      $('.sidebar').animate({
+          width: 'toggle',
+          opacity: 'toggle'
+      });
+
+      $('.overlay').fadeIn();
+  });
+
 });

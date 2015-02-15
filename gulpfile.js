@@ -6,6 +6,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     less = require('gulp-less'),
     livereload = require('gulp-livereload'),
+    pxtorem = require('gulp-pxtorem'),
     http = require('http'),
     st = require('st');
 
@@ -35,6 +36,7 @@ gulp.task('less', function() {
     paths.less
     ])
     .pipe(less())
+    .pipe(pxtorem())
     .pipe(cssmin())
     .pipe(concat('main.min.css'))
     .pipe(gulp.dest('css'))
