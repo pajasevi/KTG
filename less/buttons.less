@@ -1,19 +1,26 @@
 .button {
 	display: inline-block;
 	box-sizing: border-box;
+
 	min-width: 236px;
+	height: 66px;
+
 	margin-top: 0.5em;
 	margin-right: 1em;
-	height: 66px;
 	padding: 1em;
+
 	background: #1f2a4a;
+
 	font-family: @main-font;
 	font-size: 19px;
 	font-weight: normal;
+
 	color: #fff;
+
 	text-align: center;
 	text-transform: uppercase;
 	text-decoration: none;
+
 	transition: background 0.3s;
 
 	&:hover {
@@ -33,5 +40,39 @@
 		background: #192034;
 		font-size: 1.5em;
 		transition: background 0.3s;
+	}
+}
+
+.button-icon {
+	display: inline-block;
+	box-sizing: border-box;
+
+	width: 50px;
+	height: 50px;
+
+	padding: 0.6em;
+
+	font-size: 19px;
+	text-align: center;
+
+	background: #1f2a4a;
+
+	color: #fff;
+
+	transition: background 0.3s;
+
+	&:hover {
+		background: #ef4836;
+	}
+
+	.fa {
+		display: inline-block;
+		font-size: 1.5em;
+	}
+
+	&.button-small {
+		width: 30px;
+		height: 30px;
+		font-size: 12px;
 	}
 }
