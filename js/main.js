@@ -1,7 +1,7 @@
 var KTG = {};
 var min_w = 300; // minimum video width allowed
-var vid_w_orig;  // original video dimensions
-var vid_h_orig;
+var vid_w_orig = parseInt($('video').attr('width'));  // original video dimensions
+var vid_h_orig = parseInt($('video').attr('height'));
 
 KTG.resizeToCover = function() {
 
@@ -26,9 +26,9 @@ KTG.resizeToCover = function() {
 };
 
 KTG.appendFirst = function() {
-  $('body').addClass('first-ended');
+  $('body').addClass('first-ended no-controls');
 };
 
 KTG.hideFirst = function() {
-  $('body').removeClass('first-ended');
+  $('body').removeClass('no-controls');
 };

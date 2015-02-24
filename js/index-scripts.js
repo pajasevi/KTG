@@ -1,12 +1,9 @@
 $(function() { // runs after DOM has loaded
 
-  vid_w_orig = parseInt($('video').attr('width'));
-  vid_h_orig = parseInt($('video').attr('height'));
-
   $(window).resize(function () { KTG.resizeToCover(); });
   $(window).trigger('resize');
 
-  videos = {
+  KTG.videos = {
       introVideo : videojs('introVideo'),
       czBlinkVideoOn : videojs('czBlinkVideoOn'),
       czBlinkVideoOff : videojs('czBlinkVideoOff'),
@@ -15,45 +12,93 @@ $(function() { // runs after DOM has loaded
       enParkVideo : videojs('enParkVideo')
   }
 
+  KTG.bindUserEvents = function() {
+      $('.lang-link').on('click', function( event ) {
+        event.preventDefault();
+        $('#enParkVideo').fadeIn( 100 , function() {
+            KTG.videos.enParkVideo.play();
+            KTG.hideFirst();
+        });
+      });
+  }
+
+  KTG.bindMouseoverEvents = function() {
+      $('.lang-link.cz').on('mouseover', function() {
+        $('#czBlinkVideoOn').fadeIn( 100 , function() {
+            KTG.unbindUserEvents();
+            KTG.videos.czBlinkVideoOn.play();
+        });
+      });
+
+      $('.lang-link.en').on('mouseover', function() {
+        $('#enBlinkVideoOn').fadeIn( 100 , function() {
+            KTG.unbindUserEvents();
+            KTG.videos.enBlinkVideoOn.play();
+        });
+      });
+  }
+
+  KTG.bindMouseoutEvents = function() {
+      $('.lang-link.cz').on('mouseout', function() {
+          KTG.videos.czBlinkVideoOff.play();
+      });
+
+      $('.lang-link.en').on('mouseout', function() {
+        $('#enBlinkVideoOff').fadeIn( 100 , function() {
+            KTG.videos.enBlinkVideoOff.play();
+        });
+      });
+
+  }
+
+  KTG.unbindUserEvents = function() {
+      $('.lang-link.cz, .lang-link.en').off('mouseover');
+      $('.lang-link.cz, .lang-link.en').off('mouseout');
+  }
+
   // Intro video
 
-  videos.introVideo.play();
+  KTG.videos.introVideo.play();
 
-  videos.introVideo.on('ended', function() {
+  KTG.videos.introVideo.on('ended', function() {
     KTG.appendFirst();
   });
 
   // CZ blink videos
 
-  videos.czBlinkVideoOn.on('ended', function() {
+  KTG.videos.czBlinkVideoOn.on('ended', function() {
+    KTG.bindMouseoutEvents();
     $('#czBlinkVideoOn').fadeOut( 100 );
     $('#czBlinkVideoOff').fadeIn( 100 );
   });
 
-  videos.czBlinkVideoOff.on('ended', function() {
+  KTG.videos.czBlinkVideoOff.on('ended', function() {
     $('#czBlinkVideoOff').fadeOut( 100, function() {
-        videos.czBlinkVideoOn.currentTime( 0 );
-        videos.czBlinkVideoOff.currentTime( 0 );
+        KTG.bindMouseoverEvents();
+        KTG.videos.czBlinkVideoOn.currentTime( 0 );
+        KTG.videos.czBlinkVideoOff.currentTime( 0 );
     });
   });
 
   // EN blink videos
 
-  videos.enBlinkVideoOn.on('ended', function() {
+  KTG.videos.enBlinkVideoOn.on('ended', function() {
+    KTG.bindMouseoutEvents();
     $('#enBlinkVideoOn').fadeOut( 100 );
     $('#enBlinkVideoOff').fadeIn( 100 );
   });
 
-  videos.enBlinkVideoOff.on('ended', function() {
+  KTG.videos.enBlinkVideoOff.on('ended', function() {
     $('#enBlinkVideoOff').fadeOut( 100, function() {
-        videos.enBlinkVideoOn.currentTime( 0 );
-        videos.enBlinkVideoOff.currentTime( 0 );
+        KTG.bindMouseoverEvents();
+        KTG.videos.enBlinkVideoOn.currentTime( 0 );
+        KTG.videos.enBlinkVideoOff.currentTime( 0 );
     });
   });
 
   // Parking videos
 
-  videos.enParkVideo.on('ended', function() {
+  KTG.videos.enParkVideo.on('ended', function() {
     window.location.href += "cz-garage.html";
   });
 
@@ -65,9 +110,9 @@ $(function() { // runs after DOM has loaded
   $('.skip-intro').on('click', function( event ) {
       event.preventDefault();
 
-      videos.introVideo.pause();
-      videos.introVideo.currentTime(45);
-      videos.introVideo.play();
+      KTG.videos.introVideo.pause();
+      KTG.videos.introVideo.currentTime(50);
+      KTG.videos.introVideo.play();
   });
 
   // Mute all sounds
@@ -75,47 +120,21 @@ $(function() { // runs after DOM has loaded
       event.preventDefault();
 
       if( $(this).hasClass('mute-on') ) {
-          $.each(videos, function( key, value ) {
+          $.each(KTG.videos, function( key, value ) {
               value.muted(true);
           });
           $(this).removeClass('mute-on').addClass('mute-off');
       }
       else {
-          $.each(videos, function( key, value ) {
+          $.each(KTG.videos, function( key, value ) {
               value.muted(false);
           });
           $(this).removeClass('mute-off').addClass('mute-on');
       }
   });
 
-  $('.lang-link.cz').on('mouseover', function() {
-    $('#czBlinkVideoOn').fadeIn( 100 , function() {
-      videos.czBlinkVideoOn.play();
-    });
-  });
-
-  $('.lang-link.cz').on('mouseout', function() {
-      videos.czBlinkVideoOff.play();
-  });
-
-  $('.lang-link.en').on('mouseover', function() {
-    $('#enBlinkVideoOn').fadeIn( 100 , function() {
-        videos.enBlinkVideoOn.play();
-    });
-  });
-
-  $('.lang-link.en').on('mouseout', function() {
-    $('#enBlinkVideoOff').fadeIn( 100 , function() {
-        videos.enBlinkVideoOff.play();
-    });
-  });
-
-  $('.lang-link').on('click', function( event ) {
-    event.preventDefault();
-    $('#enParkVideo').fadeIn( 100 , function() {
-        videos.enParkVideo.play();
-        KTG.hideFirst();
-    });
-  });
+  KTG.bindUserEvents();
+  KTG.bindMouseoverEvents();
+  KTG.bindMouseoutEvents();
 
 });

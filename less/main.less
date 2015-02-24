@@ -30,7 +30,9 @@ html, body {
 	display: block;
 }
 
-.lang-link {
+.lang-link,
+.lang-info,
+.tooltip {
 	display: none;
 }
 
@@ -59,7 +61,7 @@ html, body {
 	}
 }
 
-.first-ended {
+.no-controls {
 	.lang-link {
 		position: absolute;
 
@@ -77,8 +79,70 @@ html, body {
 			left: 61%;
 		}
 	}
+
+	.tooltip {
+		position: absolute;
+
+		display: block;
+		width: 200px;
+		height: 12px;
+
+		padding: 10px;
+
+		text-align: center;
+		line-height: 1em;
+
+		background: #3a539b;
+
+		&.cz {
+			top: 30%;
+			left: 23%;
+		}
+
+		&.en {
+			top: 26%;
+			left: 63%;
+		}
+
+		&:after {
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: -10px;
+
+			display: inline-block;
+			width: 0;
+			height: 0;
+
+			margin: 0 auto;
+
+			border-top: 10px solid #3a539b;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+
+			content: "";
+		}
+	}
+}
+
+.first-ended {
 	.skip-intro {
 		display: none;
+	}
+
+	.lang-info {
+		position: absolute;
+		bottom: 10%;
+		left: 0;
+		right: 0;
+		display: block;
+		text-align: center;
+		font-size: 14px;
+
+		img {
+			margin: 0 0.5em;
+			vertical-align: text-bottom;
+		}
 	}
 }
 
