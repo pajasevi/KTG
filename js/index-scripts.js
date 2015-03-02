@@ -76,7 +76,7 @@ $(function() { // runs after DOM has loaded
     $('#enBlinkVideoOn').fadeOut( 100 );
     $('#enBlinkVideoOff').fadeIn( 100 );
     KTG.state = "en-blink-off";
-    KTG.videos.czParkVideo.currentTime(1);
+    KTG.videos.enParkVideo.currentTime(1);
   });
 
   KTG.videos.enBlinkVideoOff.on('ended', function() {
@@ -84,7 +84,7 @@ $(function() { // runs after DOM has loaded
         KTG.videos.enBlinkVideoOn.currentTime( 0 );
         KTG.videos.enBlinkVideoOff.currentTime( 0 );
         KTG.state = "off";
-        KTG.videos.czParkVideo.currentTime(0);
+        KTG.videos.enParkVideo.currentTime(0);
     });
   });
 
