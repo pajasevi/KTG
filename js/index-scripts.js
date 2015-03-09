@@ -13,11 +13,35 @@ $(function() { // runs after DOM has loaded
       enParkVideo : videojs('enParkVideo')
   }
 
+  // Functions for sound control
+
+  KTG.muteSound = function() {
+      $.each(KTG.videos, function( key, value ) {
+          value.muted(true);
+          $('.mute-button').removeClass('mute-on').addClass('mute-off');
+      });
+  }
+
+  KTG.unMuteSound = function() {
+      $.each(KTG.videos, function( key, value ) {
+          value.muted(false);
+          $('.mute-button').removeClass('mute-off').addClass('mute-on');
+      });
+  }
+
+  KTG.checkMute = function() {
+      console.log($.cookie('muted'));
+      if($.cookie('muted') == 'true') {
+          KTG.muteSound();
+      }
+  }
+
   KTG.state = "off";
 
   // Intro video
 
   KTG.videos.introVideo.play();
+  KTG.checkMute();
 
   KTG.videos.introVideo.on('ended', function() {
     KTG.appendFirst();
@@ -168,16 +192,12 @@ $(function() { // runs after DOM has loaded
       event.preventDefault();
 
       if( $(this).hasClass('mute-on') ) {
-          $.each(KTG.videos, function( key, value ) {
-              value.muted(true);
-          });
-          $(this).removeClass('mute-on').addClass('mute-off');
+          KTG.muteSound();
+          $.cookie('muted', 'true');
       }
       else {
-          $.each(KTG.videos, function( key, value ) {
-              value.muted(false);
-          });
-          $(this).removeClass('mute-off').addClass('mute-on');
+          KTG.unMuteSound();
+          $.cookie('muted', 'false');
       }
   });
 
