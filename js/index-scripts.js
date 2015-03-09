@@ -30,7 +30,6 @@ $(function() { // runs after DOM has loaded
   }
 
   KTG.checkMute = function() {
-      console.log($.cookie('muted'));
       if($.cookie('muted') == 'true') {
           KTG.muteSound();
       }
