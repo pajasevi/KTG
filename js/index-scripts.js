@@ -134,11 +134,11 @@ $(function() { // runs after DOM has loaded
   // Parking videos events
 
   KTG.videos.czParkVideo.on('ended', function() {
-    window.location.href += "cz-garage.html";
+    window.location.href += "cz/";
   });
 
   KTG.videos.enParkVideo.on('ended', function() {
-    window.location.href += "en-garage.html";
+    window.location.href += "en/";
   });
 
 
