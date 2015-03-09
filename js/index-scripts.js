@@ -122,6 +122,38 @@ $(function() { // runs after DOM has loaded
 
   // User Events
 
+  // CZ tooltip hover
+
+  $('.lang-link.cz').on('mouseover', function() {
+      $('.tooltip.cz').animate({
+          opacity: 1,
+          top: "-=10"
+      }, 300);
+  });
+
+  $('.lang-link.cz').on('mouseout', function() {
+      $('.tooltip.cz').animate({
+          opacity: 0,
+          top: "+=10"
+      }, 300);
+  });
+
+  // EN tooltip hover
+
+  $('.lang-link.en').on('mouseover', function() {
+      $('.tooltip.en').animate({
+          opacity: 1,
+          top: "-=10"
+      }, 300);
+  });
+
+  $('.lang-link.en').on('mouseout', function() {
+      $('.tooltip.en').animate({
+          opacity: 0,
+          top: "+=10"
+      }, 300);
+  });
+
   // Skip Intro
   $('.skip-intro').on('click', function( event ) {
       event.preventDefault();
