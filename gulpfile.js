@@ -16,6 +16,7 @@ var paths = {
   main_scripts: 'js/main.js',
   index_scripts: 'js/index-scripts.js',
   garage_scripts: 'js/garage-scripts.js',
+  detect_mobile: 'js/detect-mobile.js',
   normalize: 'bower_components/normalize-css/normalize.css',
   less: 'less/main.less'
 };
@@ -24,7 +25,8 @@ gulp.task('javascript', function () {
    gulp.src([
      paths.jquery,
      paths.video,
-     paths.main_scripts
+     paths.main_scripts,
+     paths.detect_mobile
      ])
       .pipe(uglify())
       .pipe(concat('main.min.js'))
