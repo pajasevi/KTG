@@ -6,6 +6,49 @@ $(function() { // runs after DOM has loaded
   $(window).resize(function () { KTG.resizeToCover(); });
   $(window).trigger('resize');
 
+  KTG.toggleMenu = function( callback ) {
+      $('.sidebar').animate({
+          width: 'toggle',
+          opacity: 'toggle'
+      });
+
+      $('.overlay').animate({
+          opacity: 'toggle'
+      }, 400, callback );
+  }
+
+  KTG.toggleContent = function( callback ) {
+      $('.content').animate({
+          opacity: 'toggle'
+      }, 400, callback)
+  }
+
+  KTG.toggleAll = function() {
+      if($('.content').is(':visible')) {
+          KTG.toggleContent(function() {
+             KTG.toggleMenu();
+          });
+      }
+      else {
+          KTG.toggleMenu(function() {
+              KTG.toggleContent();
+          });
+      }
+  }
+
+
+
+  $('.main-menu').on('click', 'a', function( event ) {
+      if($(this).attr('href').indexOf('#') > -1) {
+          event.preventDefault();
+          KTG.toggleAll();
+      }
+  });
+
+  $('.close-content').on('click', function() {
+      KTG.toggleAll();
+  });
+
   $('.content').perfectScrollbar();
 
   var garageVideo = videojs('garageVideo');
@@ -13,12 +56,7 @@ $(function() { // runs after DOM has loaded
   garageVideo.play();
 
   garageVideo.on('ended', function() {
-      $('.sidebar').animate({
-          width: 'toggle',
-          opacity: 'toggle'
-      });
-
-      $('.overlay').fadeIn();
+      KTG.toggleMenu();
   });
 
 });

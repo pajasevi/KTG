@@ -240,8 +240,9 @@ html, body {
 	right: 15px;
 	bottom: 15px;
 	left: 15px;
+	z-index: 9999;
 
-	padding: 6% 20%;
+	padding: 90px 75px;
 
 	background: fade(#3f5696, 90%);
 
@@ -259,5 +260,17 @@ html, body {
 		span {
 			font-weight: 500;
 		}
+	}
+}
+
+.close-content {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	opacity: 0.8;
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 1;
 	}
 }
