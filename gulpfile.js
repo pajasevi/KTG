@@ -18,7 +18,9 @@ var paths = {
   garage_scripts: 'js/garage-scripts.js',
   detect_mobile: 'js/detect-mobile.js',
   jquery_cookie: 'bower_components/jquery.cookie/jquery.cookie.js',
+  jquery_scrollbar: 'bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
   normalize: 'bower_components/normalize-css/normalize.css',
+  jquery_scrollbar_css: 'bower_components/perfect-scrollbar/css/perfect-scrollbar.css',
   less: 'less/main.less'
 };
 
@@ -27,6 +29,7 @@ gulp.task('javascript', function () {
      paths.jquery,
      paths.video,
      paths.jquery_cookie,
+     paths.jquery_scrollbar,
      paths.main_scripts,
      paths.detect_mobile
      ])
@@ -52,7 +55,8 @@ gulp.task('javascript', function () {
 
 gulp.task('less', function() {
   gulp.src([
-    paths.normalize,
+    paths.normalize,,
+    paths.jquery_scrollbar_css,
     paths.less
     ])
     .pipe(less())

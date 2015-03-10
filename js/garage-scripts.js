@@ -6,6 +6,8 @@ $(function() { // runs after DOM has loaded
   $(window).resize(function () { KTG.resizeToCover(); });
   $(window).trigger('resize');
 
+  $('.content').perfectScrollbar();
+
   var garageVideo = videojs('garageVideo');
 
   garageVideo.play();
