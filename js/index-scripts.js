@@ -3,7 +3,10 @@ $(function() { // runs after DOM has loaded
   $(window).resize(function () { KTG.resizeToCover(); });
   $(window).trigger('resize');
 
-  if(Modernizr.video && !KTG.isMobile()) {
+  if(Modernizr.video && !KTG.isMobile() && !($.cookie('no-video', Boolean))) {
+
+    $.cookie('no-video', 'false', { path: '/' });
+
     KTG.videos = {
         introVideo : videojs('introVideo'),
         czBlinkVideoOn : videojs('czBlinkVideoOn'),
@@ -149,6 +152,7 @@ $(function() { // runs after DOM has loaded
     $('.mute-button').remove();
     KTG.videoDeclined = true;
     KTG.appendFirst();
+    $.cookie('no-video', 'true', { path: '/' });
 
     $('.lang-link.cz').on('click', function( event ) {
       event.preventDefault();
@@ -179,6 +183,16 @@ $(function() { // runs after DOM has loaded
 
 
   // User Events
+
+  $('.video-switcher.off').on('click', function() {
+    $.cookie('no-video', 'true', { path: '/' });
+    window.location.reload();
+  });
+
+  $('.video-switcher.on').on('click', function() {
+    $.removeCookie('no-video', 'false', { path: '/' });
+    window.location.reload();
+  });
 
   // CZ tooltip hover
 

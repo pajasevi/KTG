@@ -11,23 +11,50 @@ html, body {
 
 .video-declined {
 	background: url('../img/main-bg.png') no-repeat center center #000;
-	background-size: contain;
+	background-size: cover;
 }
 .video-declined.cz {
 	background: url('../img/main-cz-bg.png') no-repeat center center #000;
-	background-size: contain;
+	background-size: cover;
 }
 .video-declined.en {
 	background: url('../img/main-en-bg.png') no-repeat center center #000;
-	background-size: contain;
+	background-size: cover;
 }
 .garage-cz {
 	background: url('../img/garaz-cz.png') no-repeat center center #000;
-	background-size: contain;
+	background-size: cover;
 }
 .garage-en {
 	background: url('../img/garaz-en.png') no-repeat center center #000;
-	background-size: contain;
+	background-size: cover;
+}
+
+.video-switcher {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	font-size: 10px;
+	font-family: @content-font;
+	text-decoration: none;
+	color: #fff;
+	text-shadow: 1px 1px 3px #000;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.video-declined .video-switcher.off {
+	display: none;
+}
+
+.video-switcher.on {
+	display: none;
+}
+
+.video-declined .video-switcher.on {
+	display: block;
 }
 
 #video-wrap {
