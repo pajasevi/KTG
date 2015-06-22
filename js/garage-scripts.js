@@ -51,12 +51,19 @@ $(function() { // runs after DOM has loaded
 
   $('.content').perfectScrollbar();
 
-  var garageVideo = videojs('garageVideo');
+  if(Modernizr.video && !KTG.isMobile()) {
 
-  garageVideo.play();
+    var garageVideo = videojs('garageVideo');
 
-  garageVideo.on('ended', function() {
-      KTG.toggleMenu();
-  });
+    garageVideo.play();
+
+    garageVideo.on('ended', function() {
+        KTG.toggleMenu();
+    });
+  }
+  else {
+    $('#video-wrap').remove();
+    KTG.toggleMenu();
+  }
 
 });
