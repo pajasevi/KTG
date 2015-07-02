@@ -190,7 +190,7 @@ $(function() { // runs after DOM has loaded
   });
 
   $('.video-switcher.on').on('click', function() {
-    $.removeCookie('no-video', 'false', { path: '/' });
+    $.removeCookie('no-video', { path: '/' });
     window.location.reload();
   });
 
