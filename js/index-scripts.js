@@ -3,7 +3,7 @@ $(function() { // runs after DOM has loaded
   $(window).resize(function () { KTG.resizeToCover(); });
   $(window).trigger('resize');
 
-  if(Modernizr.video && !KTG.isMobile() && !($.cookie('no-video', Boolean))) {
+  if(Modernizr.video && !KTG.isMobile() && $.cookie('no-video') != 'true') {
 
     $.cookie('no-video', 'false', { path: '/' });
 
