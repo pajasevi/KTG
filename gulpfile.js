@@ -20,6 +20,7 @@ var paths = {
   jquery_scrollbar: 'bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
   normalize: 'bower_components/normalize-css/normalize.css',
   jquery_scrollbar_css: 'bower_components/perfect-scrollbar/css/perfect-scrollbar.css',
+  history_js : 'bower_components/history.js/scripts/bundled/html5/jquery.history.js',
   less: 'less/main.less'
 };
 
@@ -29,6 +30,7 @@ gulp.task('javascript', function () {
      paths.video,
      paths.jquery_cookie,
      paths.jquery_scrollbar,
+     paths.history_js,
      paths.main_scripts,
      paths.detect_mobile
      ])

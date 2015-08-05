@@ -20,6 +20,7 @@
     "video.js": "~4.11.4",
     "normalize-css": "~3.0.2",
     "jquery.cookie": "~1.4.1",
-    "perfect-scrollbar": "~0.6.1"
+    "perfect-scrollbar": "~0.6.1",
+    "history.js": "~1.8.0"
   }
 }
