@@ -39,9 +39,17 @@ $(function() { // runs after DOM has loaded
 
 
   $('.main-menu').on('click', 'a', function( event ) {
-      if($(this).attr('href').indexOf('#') > -1) {
+      var url = $(this).attr('href');
+
+      if(url.indexOf('#') > -1) {
           event.preventDefault();
-          KTG.toggleAll();
+
+          var fetchUrl = url.substring(url.indexOf('#') + 1, url.length);
+          $.get(fetchUrl + '.html', function(data) {
+            $('.content-inside').html(data);
+            $('#content-title').text($('.content-inside').find('title').text());
+            KTG.toggleAll();
+          });
       }
   });
 
@@ -51,7 +59,7 @@ $(function() { // runs after DOM has loaded
 
   $('.content').perfectScrollbar();
 
-  if(Modernizr.video && !KTG.isMobile() && !($.cookie('no-video', Boolean))) {
+  if(Modernizr.video && !KTG.isMobile() && $.cookie('no-video') != true) {
 
     var garageVideo = videojs('garageVideo');
 
