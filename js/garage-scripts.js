@@ -36,25 +36,40 @@ $(function() { // runs after DOM has loaded
       }
   }
 
+  KTG.hashControl = function(hash) {
+    if(hash.indexOf('#') > -1) {
+
+      var fetchUrl = hash.substring(hash.indexOf('#') + 1, hash.length);
+      $.get(fetchUrl + '.html', function(data) {
+        $('.content-inside').html(data);
+          var contentTitle = $('.content-inside').find('title').text();
+
+        $('#content-title').text(contentTitle);
+
+        KTG.toggleAll();
+      });
+    }
+  }
+
 
 
   $('.main-menu').on('click', 'a', function( event ) {
       var url = $(this).attr('href');
 
-      if(url.indexOf('#') > -1) {
-          event.preventDefault();
-
-          var fetchUrl = url.substring(url.indexOf('#') + 1, url.length);
-          $.get(fetchUrl + '.html', function(data) {
-            $('.content-inside').html(data);
-            $('#content-title').text($('.content-inside').find('title').text());
-            KTG.toggleAll();
-          });
-      }
+      KTG.hashControl(url);
   });
 
   $('.close-content').on('click', function() {
-      KTG.toggleAll();
+    window.location.hash = '';
+    KTG.toggleAll();
+  });
+
+  $(window).on('load', function() {
+    $('.main-menu a').each(function(index, element) {
+      if($(element).attr('href') == window.location.hash) {
+        $(element).click();
+      }
+    });
   });
 
   $('.content').perfectScrollbar();
