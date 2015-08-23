@@ -226,15 +226,6 @@ $(function() { // runs after DOM has loaded
       }, 300);
   });
 
-  // Skip Intro
-  $('.skip-intro').on('click', function( event ) {
-      event.preventDefault();
-
-      KTG.videos.introVideo.pause();
-      KTG.videos.introVideo.currentTime(50);
-      KTG.videos.introVideo.play();
-  });
-
   // Mute all sounds
   $('.mute-button').on('click', function( event ) {
       event.preventDefault();

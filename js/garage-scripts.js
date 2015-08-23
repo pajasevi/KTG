@@ -49,19 +49,27 @@ $(function() { // runs after DOM has loaded
         KTG.toggleAll();
       });
     }
+    else {
+      KTG.toggleAll();
+    }
   }
 
+  $(window).on('hashchange', function(event) {
+    event.preventDefault();
 
+    var hash = window.location.hash;
+    KTG.hashControl(hash);
+  });
 
   $('.main-menu').on('click', 'a', function( event ) {
+      event.preventDefault();
       var url = $(this).attr('href');
 
-      KTG.hashControl(url);
+      window.location.hash = url;
   });
 
   $('.close-content').on('click', function() {
     window.location.hash = '';
-    KTG.toggleAll();
   });
 
   $(window).on('load', function() {
