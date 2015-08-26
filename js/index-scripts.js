@@ -17,6 +17,8 @@ $(function() { // runs after DOM has loaded
         enParkVideo : videojs('enParkVideo')
     }
 
+    KTG.sound = document.getElementById('backgroundSound');
+
     // Functions for sound control
 
     KTG.muteSound = function() {
@@ -24,6 +26,7 @@ $(function() { // runs after DOM has loaded
             value.muted(true);
             $('.mute-button').removeClass('mute-on').addClass('mute-off');
         });
+        KTG.sound.muted = true;
     }
 
     KTG.unMuteSound = function() {
@@ -31,6 +34,7 @@ $(function() { // runs after DOM has loaded
             value.muted(false);
             $('.mute-button').removeClass('mute-off').addClass('mute-on');
         });
+        KTG.sound.muted = false;
     }
 
     KTG.checkMute = function() {
@@ -48,6 +52,7 @@ $(function() { // runs after DOM has loaded
 
     KTG.videos.introVideo.on('ended', function() {
       KTG.appendFirst();
+      KTG.sound.play()
     });
 
     // User hover events
