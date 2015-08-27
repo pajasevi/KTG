@@ -15,7 +15,11 @@
     <body>
 
         <div id="video-wrap">
-            <video class="main-video" id="garageVideo" src="../videos/en_garaz.mp4" preload width="640" height="360"></video>
+          <video class="main-video" id="garageVideo" preload width="640" height="360">
+            <source src="../videos/en_garaz.mp4" type="video/mp4">
+            <source src="../videos/en_garaz.ogv" type="video/ogg">
+            <source src="../videos/en_garaz.webm" type="video/webm">
+          </video>
         </div>
 
         <div class="sidebar">

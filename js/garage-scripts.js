@@ -37,7 +37,7 @@ $(function() { // runs after DOM has loaded
   }
 
   KTG.hashControl = function(hash) {
-    if(hash.indexOf('#') > -1) {
+    if (hash.indexOf('#') > -1) {
 
       var fetchUrl = hash.substring(hash.indexOf('#') + 1, hash.length);
       $.get(fetchUrl + '.html', function(data) {
@@ -65,7 +65,12 @@ $(function() { // runs after DOM has loaded
       event.preventDefault();
       var url = $(this).attr('href');
 
-      window.location.hash = url;
+      if (url.indexOf('#') > -1) {
+        window.location.hash = url;
+      }
+      else {
+        window.location = url;
+      }
   });
 
   $('.close-content').on('click', function() {

@@ -19,13 +19,41 @@
       <a class="video-switcher on" href="javascript:void(0)">Verze webu s videem/Video version of the web</a>
 
         <div id="video-wrap">
-            <video class="main-video" id="introVideo" src="videos/intro.mp4" preload width="640" height="360"></video>
-            <video class="main-video" id="czBlinkVideoOn" src="videos/cz_bliknuti_on.mp4" preload width="640" height="360"></video>
-            <video class="main-video" id="enBlinkVideoOn" src="videos/en_bliknuti_on.mp4" preload width="640" height="360"></video>
-            <video class="main-video" id="czBlinkVideoOff" src="videos/cz_bliknuti_off.mp4" preload width="640" height="360"></video>
-            <video class="main-video" id="enBlinkVideoOff" src="videos/en_bliknuti_off.mp4" preload width="640" height="360"></video>
-            <video class="main-video" id="czParkVideo" src="videos/cz_vjezd.mp4" preload width="640" height="360"></video>
-            <video class="main-video" id="enParkVideo" src="videos/en_vjezd.mp4" preload width="640" height="360"></video>
+            <video class="main-video" id="introVideo" preload>
+              <source src="videos/intro.mp4" type="video/mp4">
+              <source src="videos/intro.ogv" type="video/ogg">
+              <source src="videos/intro.webm" type="video/webm">
+            </video>
+            <video class="main-video" id="czBlinkVideoOn" preload>
+              <source src="videos/cz_bliknuti_on.mp4" type="video/mp4">
+              <source src="videos/cz_bliknuti_on.ogv" type="video/ogg">
+              <source src="videos/cz_bliknuti_on.webm" type="video/webm">
+            </video>
+            <video class="main-video" id="enBlinkVideoOn" preload>
+              <source src="videos/en_bliknuti_on.mp4" type="video/mp4">
+              <source src="videos/en_bliknuti_on.ogv" type="video/ogg">
+              <source src="videos/en_bliknuti_on.webm" type="video/webm">
+            </video>
+            <video class="main-video" id="czBlinkVideoOff" preload>
+              <source src="videos/cz_bliknuti_off.mp4" type="video/mp4">
+              <source src="videos/cz_bliknuti_off.ogv" type="video/ogg">
+              <source src="videos/cz_bliknuti_off.webm" type="video/webm">
+            </video>
+            <video class="main-video" id="enBlinkVideoOff" preload>
+              <source src="videos/en_bliknuti_off.mp4" type="video/mp4">
+              <source src="videos/en_bliknuti_off.ogv" type="video/ogg">
+              <source src="videos/en_bliknuti_off.webm" type="video/webm">
+            </video>
+            <video class="main-video" id="czParkVideo" preload>
+              <source src="videos/cz_vjezd.mp4" type="video/mp4">
+              <source src="videos/cz_vjezd.ogv" type="video/ogg">
+              <source src="videos/cz_vjezd.webm" type="video/webm">
+            </video>
+            <video class="main-video" id="enParkVideo" preload>
+              <source src="videos/en_vjezd.mp4" type="video/mp4">
+              <source src="videos/en_vjezd.ogv" type="video/ogg">
+              <source src="videos/en_vjezd.webm" type="video/webm">
+            </video>
 
             <audio id="backgroundSound" src="videos/background_sound.mp3" preload loop></audio>
         </div>
