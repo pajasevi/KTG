@@ -57,7 +57,7 @@ $(function() { // runs after DOM has loaded
 
     // User hover events
 
-    $(document).on('mouseover', function (event) {
+    $(document).on('mousemove', function (event) {
       var target = $(event.target);
 
       if (target.hasClass('lang-link cz') && KTG.state == "off") { // hover on CZ car
@@ -87,14 +87,14 @@ $(function() { // runs after DOM has loaded
     // CZ blink videos
 
     KTG.videos.czBlinkVideoOn.on('ended', function() {
-      $('#czBlinkVideoOn').fadeOut( 100 );
-      $('#czBlinkVideoOff').fadeIn( 100 );
+      $('#czBlinkVideoOn').hide();
+      $('#czBlinkVideoOff').show();
       KTG.state = "cz-blink-off";
       KTG.videos.czParkVideo.currentTime(1);
     });
 
     KTG.videos.czBlinkVideoOff.on('ended', function() {
-      $('#czBlinkVideoOff').fadeOut( 100, function() {
+      $('#czBlinkVideoOff').hide( function() {
           KTG.videos.czBlinkVideoOn.currentTime( 0 );
           KTG.videos.czBlinkVideoOff.currentTime( 0 );
           KTG.state = "off";
@@ -105,14 +105,14 @@ $(function() { // runs after DOM has loaded
     // EN blink videos
 
     KTG.videos.enBlinkVideoOn.on('ended', function() {
-      $('#enBlinkVideoOn').fadeOut( 100 );
-      $('#enBlinkVideoOff').fadeIn( 100 );
+      $('#enBlinkVideoOn').hide();
+      $('#enBlinkVideoOff').show();
       KTG.state = "en-blink-off";
       KTG.videos.enParkVideo.currentTime(1);
     });
 
     KTG.videos.enBlinkVideoOff.on('ended', function() {
-      $('#enBlinkVideoOff').fadeOut( 100, function() {
+      $('#enBlinkVideoOff').hide( function() {
           KTG.videos.enBlinkVideoOn.currentTime( 0 );
           KTG.videos.enBlinkVideoOff.currentTime( 0 );
           KTG.state = "off";
@@ -124,7 +124,7 @@ $(function() { // runs after DOM has loaded
 
     $('.lang-link.cz').on('click', function( event ) {
       event.preventDefault();
-      $('#czParkVideo').fadeIn( 100 , function() {
+      $('#czParkVideo').show( function() {
           KTG.videos.czParkVideo.play();
           KTG.hideFirst();
           KTG.state = "park-video";
@@ -133,7 +133,7 @@ $(function() { // runs after DOM has loaded
 
     $('.lang-link.en').on('click', function( event ) {
       event.preventDefault();
-      $('#enParkVideo').fadeIn( 100 , function() {
+      $('#enParkVideo').show( function() {
           KTG.videos.enParkVideo.play();
           KTG.hideFirst();
           KTG.state = "park-video";
