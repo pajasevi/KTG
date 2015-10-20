@@ -87,7 +87,7 @@ $(function() { // runs after DOM has loaded
 
   $('.content').perfectScrollbar();
 
-  if(Modernizr.video && !KTG.isMobile() && $.cookie('no-video') != true) {
+  if(Modernizr.video && !KTG.isMobile() && $.cookie('no-video') != 'true') {
 
     var garageVideo = videojs('garageVideo');
 
