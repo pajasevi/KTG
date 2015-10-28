@@ -1,64 +1,9 @@
 $(function() { // runs after DOM has loaded
-
   $(window).resize(function () { KTG.resizeToCover(); });
   $(window).trigger('resize');
 
-
   if(Modernizr.video && !KTG.isMobile() && $.cookie('no-video') != 'true') {
-
     $.cookie('no-video', 'false', { path: '/' });
-
-    KTG.videos = {
-        introVideo : videojs('introVideo'),
-        czBlinkOnVideo : videojs('czBlinkOnVideo'),
-        czBlinkOffVideo : videojs('czBlinkOffVideo'),
-        enBlinkOnVideo : videojs('enBlinkOnVideo'),
-        enBlinkOffVideo : videojs('enBlinkOffVideo'),
-        czParkVideo : videojs('czParkVideo'),
-        enParkVideo : videojs('enParkVideo')
-    }
-
-    KTG.VideoController = function() {
-      var states = {
-        "intro": ["idle"],
-        "czBlinkOn" : ["czBlinkOff"],
-        "czBlinkOff" : ["idle"],
-        "enBlinkOn" : ["enBlinkOff"],
-        "enBlinkOff" : ["idle"],
-        "idle" : ["czBlinkOn, enBlinkOn"]
-      }
-      var line = [];
-      var currentState = null;
-      var isIdle = function() {
-        this.currentState === "idle";
-      };
-
-      var handleLine = function() {
-        if(this.isIdle()) {
-          this.currentState = this.line.pop();
-          // pustit video
-        }
-      }.bind(this);
-
-      return {
-        push : function(item) {
-          this.line.push(item);
-          this.handleLine();
-        }
-      }
-    };
-
-    var videoController = new KTG.VideoController();
-    videoController.push("intro");
-
-    KTG.getState = function() {
-      return KTG.state;
-    }
-
-    KTG.setState = function(state) {
-      KTG.state = state;
-      console.log(state);
-    }
 
     KTG.sound = document.getElementById('backgroundSound');
 
@@ -86,146 +31,176 @@ $(function() { // runs after DOM has loaded
         }
     }
 
-    KTG.setState("off");
-
-    // Intro video
-
-    KTG.videos.introVideo.play();
-    KTG.checkMute();
-
-    KTG.videos.introVideo.on('ended', function() {
-      KTG.appendFirst();
-      KTG.sound.play()
-    });
-
-    // User hover events
-
-    $(document).on('mousemove', function (event) {
-      var target = $(event.target);
-
-      if (target.hasClass('lang-link cz') && KTG.getState() == "off") { // hover on CZ car
-        KTG.setState("cz-blink-on");
-        $('#czBlinkOnVideo').show( function() {
-          KTG.videos.czBlinkOnVideo.play();
-        });
+    KTG.VideoController = function() {
+      var transitions = {
+        "introVideo": ["idle"],
+        "czBlinkOnVideo" : ["czBlinkOffVideo"],
+        "czBlinkOffVideo" : ["idle"],
+        "enBlinkOnVideo" : ["enBlinkOffVideo"],
+        "enBlinkOffVideo" : ["idle"],
+        "idle" : ["czBlinkOnVideo, enBlinkOnVideo"]
       }
 
-      if (target.hasClass('lang-link en') && KTG.getState() == "off") { // hover on EN car
-        KTG.setState("en-blink-on");
-        $('#enBlinkOnVideo').show( function() {
-          KTG.videos.enBlinkOnVideo.play();
-        });
+      var videos = {
+        introVideo: videojs('introVideo'),
+        czBlinkOnVideo: videojs('czBlinkOnVideo'),
+        czBlinkOffVideo: videojs('czBlinkOffVideo'),
+        enBlinkOnVideo: videojs('enBlinkOnVideo'),
+        enBlinkOffVideo: videojs('enBlinkOffVideo'),
+        czParkVideo: videojs('czParkVideo'),
+        enParkVideo: videojs('enParkVideo')
       }
 
-      if(target.hasClass('first-ended no-controls') && KTG.getState() == "cz-blink-off") {
-        KTG.videos.czBlinkOffVideo.play();
-      }
-
-      if(target.hasClass('first-ended no-controls') && KTG.getState() == "en-blink-off") {
-        KTG.videos.enBlinkOffVideo.play();
-      }
-    });
-
-
-    // CZ blink videos
-
-    KTG.videos.czBlinkOnVideo.on('ended', function() {
-      KTG.setState("cz-blink-off");
-      $('#czBlinkOnVideo').hide();
-      $('#czBlinkOffVideo').show();
-      KTG.videos.czParkVideo.currentTime(1);
-    });
-
-    KTG.videos.czBlinkOffVideo.on('ended', function() {
-      KTG.setState("off");
-      $('#czBlinkOffVideo').hide( function() {
-          KTG.videos.czBlinkOnVideo.currentTime( 0 );
-          KTG.videos.czBlinkOffVideo.currentTime( 0 );
-          KTG.videos.czParkVideo.currentTime(0);
+      videos.czBlinkOnVideo.on('ended', function() {
+        $('#czBlinkOnVideo').hide();
+        $('#czBlinkOffVideo').show();
+        videos.czParkVideo.currentTime(1);
       });
-    });
 
-    // EN blink videos
-
-    KTG.videos.enBlinkOnVideo.on('ended', function() {
-      KTG.setState("en-blink-off");
-      $('#enBlinkOnVideo').hide();
-      $('#enBlinkOffVideo').show();
-      KTG.videos.enParkVideo.currentTime(1);
-    });
-
-    KTG.videos.enBlinkOffVideo.on('ended', function() {
-      KTG.setState("off");
-      $('#enBlinkOffVideo').hide( function() {
-          KTG.videos.enBlinkOnVideo.currentTime( 0 );
-          KTG.videos.enBlinkOffVideo.currentTime( 0 );
-          KTG.videos.enParkVideo.currentTime(0);
+      videos.czBlinkOffVideo.on('ended', function() {
+        videos.czBlinkOnVideo.currentTime(0);
+        $('#czBlinkOffVideo').hide(function() {
+          videos.czBlinkOffVideo.currentTime(0);
+          videos.czParkVideo.currentTime(0);
+        });
       });
+
+      videos.enBlinkOnVideo.on('ended', function() {
+        $('#enBlinkOnVideo').hide();
+        $('#enBlinkOffVideo').show();
+        videos.enParkVideo.currentTime(1);
+      });
+
+      videos.enBlinkOffVideo.on('ended', function() {
+        videos.enBlinkOnVideo.currentTime(0);
+        $('#enBlinkOffVideo').hide(function() {
+          videos.enBlinkOffVideo.currentTime(0);
+          videos.enParkVideo.currentTime(0);
+        });
+      });
+
+      videos.introVideo.playbackRate(100);
+      videos.introVideo.on('ended', function() {
+        KTG.appendFirst();
+        KTG.sound.play();
+      });
+
+      videos.czParkVideo.on('ended', function() {
+        window.location.href += "cz/";
+      });
+
+      videos.enParkVideo.on('ended', function() {
+        window.location.href += "en/";
+      });
+
+      var queue = [];
+      var state = "idle";
+      var lastVideoState = null;
+
+      var getState = function() {
+        return state;
+      }
+
+      var setState = function(newState) {
+        state = newState;
+        if(newState === "idle") {
+          processQueue();
+        }
+      }
+
+      var isIdle = function() {
+        return getState() === "idle";
+      };
+
+      var processQueue = function() {
+        oldState = getState();
+
+        queue = arrayUnique(queue);
+        queue = removeFullStates(queue);
+
+        newState = queue.shift();
+
+        if(!newState) return;
+
+        if(videos[newState]) {
+          videos[newState].one('ended', function() {
+            setState('idle');
+          });
+
+          $("#" + newState).show(function() {
+            videos[newState].play();
+            lastVideoState = newState;
+          });
+        }
+        setState(newState);
+      };
+
+      var arrayUnique = function(a) {
+        return a.reduce(function(p, c) {
+          if (p.indexOf(c) < 0) p.push(c);
+          return p;
+        }, []);
+      };
+
+      var removeFullStates = function(a) {
+        if(a[0] && a[1]) {
+          if((a[0].indexOf('OnVideo') >= 0) && (a[1].indexOf('OffVideo') >= 0)) {
+            a.shift();
+            a.shift();
+          }
+        }
+        return a;
+      }
+
+      var enqueue = function(item) {
+        queue.push(item);
+        queue = arrayUnique(queue);
+        queue = removeFullStates(queue);
+        if(isIdle()) {
+          processQueue();
+        }
+      }
+
+      return {
+        "enqueue": enqueue,
+        "videos": videos
+      }
+    };
+
+    var videoController = new KTG.VideoController();
+
+    videoController.enqueue("introVideo");
+
+    $('.lang-link.cz').on('mouseenter', function() {
+      videoController.enqueue("czBlinkOnVideo");
     });
 
-    // Parking videos on click
+    $('.lang-link.cz').on('mouseleave', function() {
+      videoController.enqueue("czBlinkOffVideo");
+    });
+
+    $('.lang-link.en').on('mouseenter', function() {
+      videoController.enqueue("enBlinkOnVideo");
+    });
+
+    $('.lang-link.en').on('mouseleave', function() {
+      videoController.enqueue("enBlinkOffVideo");
+    });
 
     $('.lang-link.cz').on('click', function( event ) {
       event.preventDefault();
       $('#czParkVideo').show( function() {
-          KTG.videos.czParkVideo.play();
+          videoController.enqueue('czParkVideo');
           KTG.hideFirst();
-          KTG.setState("park-video");
       });
     });
 
     $('.lang-link.en').on('click', function( event ) {
       event.preventDefault();
       $('#enParkVideo').show( function() {
-          KTG.videos.enParkVideo.play();
+          videoController.enqueue('enParkVideo');
           KTG.hideFirst();
-          KTG.setState("park-video");
       });
-    });
-
-    // Parking videos events
-
-    KTG.videos.czParkVideo.on('ended', function() {
-      window.location.href += "cz/";
-    });
-
-    KTG.videos.enParkVideo.on('ended', function() {
-      window.location.href += "en/";
-    });
-
-  }
-  else {
-    $('#video-wrap').remove();
-    $('html').addClass('video-declined');
-    $('.mute-button').remove();
-    KTG.videoDeclined = true;
-    KTG.appendFirst();
-    $.cookie('no-video', 'true', { path: '/' });
-
-    $('.lang-link.cz').on('click', function( event ) {
-      event.preventDefault();
-      window.location.href += "cz/";
-    });
-
-    $('.lang-link.en').on('click', function( event ) {
-      event.preventDefault();
-      window.location.href += "en/";
-    });
-
-    $('.lang-link.cz').on('mouseover', function( event ) {
-      $('html').addClass('cz');
-    });
-
-    $('.lang-link.cz').on('mouseout', function( event ) {
-      $('html').removeClass('cz');
-    });
-
-    $('.lang-link.en').on('mouseover', function( event ) {
-      $('html').addClass('en');
-    });
-
-    $('.lang-link.en').on('mouseout', function( event ) {
-      $('html').removeClass('en');
     });
   }
 
@@ -287,5 +262,4 @@ $(function() { // runs after DOM has loaded
           $.cookie('muted', 'false');
       }
   });
-
 });
