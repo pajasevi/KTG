@@ -3,18 +3,61 @@ $(function() { // runs after DOM has loaded
   $(window).resize(function () { KTG.resizeToCover(); });
   $(window).trigger('resize');
 
+
   if(Modernizr.video && !KTG.isMobile() && $.cookie('no-video') != 'true') {
 
     $.cookie('no-video', 'false', { path: '/' });
 
     KTG.videos = {
         introVideo : videojs('introVideo'),
-        czBlinkVideoOn : videojs('czBlinkVideoOn'),
-        czBlinkVideoOff : videojs('czBlinkVideoOff'),
-        enBlinkVideoOn : videojs('enBlinkVideoOn'),
-        enBlinkVideoOff : videojs('enBlinkVideoOff'),
+        czBlinkOnVideo : videojs('czBlinkOnVideo'),
+        czBlinkOffVideo : videojs('czBlinkOffVideo'),
+        enBlinkOnVideo : videojs('enBlinkOnVideo'),
+        enBlinkOffVideo : videojs('enBlinkOffVideo'),
         czParkVideo : videojs('czParkVideo'),
         enParkVideo : videojs('enParkVideo')
+    }
+
+    KTG.VideoController = function() {
+      var states = {
+        "intro": ["idle"],
+        "czBlinkOn" : ["czBlinkOff"],
+        "czBlinkOff" : ["idle"],
+        "enBlinkOn" : ["enBlinkOff"],
+        "enBlinkOff" : ["idle"],
+        "idle" : ["czBlinkOn, enBlinkOn"]
+      }
+      var line = [];
+      var currentState = null;
+      var isIdle = function() {
+        this.currentState === "idle";
+      };
+
+      var handleLine = function() {
+        if(this.isIdle()) {
+          this.currentState = this.line.pop();
+          // pustit video
+        }
+      }.bind(this);
+
+      return {
+        push : function(item) {
+          this.line.push(item);
+          this.handleLine();
+        }
+      }
+    };
+
+    var videoController = new KTG.VideoController();
+    videoController.push("intro");
+
+    KTG.getState = function() {
+      return KTG.state;
+    }
+
+    KTG.setState = function(state) {
+      KTG.state = state;
+      console.log(state);
     }
 
     KTG.sound = document.getElementById('backgroundSound');
@@ -43,7 +86,7 @@ $(function() { // runs after DOM has loaded
         }
     }
 
-    KTG.state = "off";
+    KTG.setState("off");
 
     // Intro video
 
@@ -60,62 +103,62 @@ $(function() { // runs after DOM has loaded
     $(document).on('mousemove', function (event) {
       var target = $(event.target);
 
-      if (target.hasClass('lang-link cz') && KTG.state == "off") { // hover on CZ car
-        $('#czBlinkVideoOn').fadeIn( 100 , function() {
-          KTG.videos.czBlinkVideoOn.play();
-          KTG.state = "cz-blink-on";
+      if (target.hasClass('lang-link cz') && KTG.getState() == "off") { // hover on CZ car
+        KTG.setState("cz-blink-on");
+        $('#czBlinkOnVideo').show( function() {
+          KTG.videos.czBlinkOnVideo.play();
         });
       }
 
-      if (target.hasClass('lang-link en') && KTG.state == "off") { // hover on EN car
-        $('#enBlinkVideoOn').fadeIn( 100 , function() {
-          KTG.videos.enBlinkVideoOn.play();
-          KTG.state = "en-blink-on";
+      if (target.hasClass('lang-link en') && KTG.getState() == "off") { // hover on EN car
+        KTG.setState("en-blink-on");
+        $('#enBlinkOnVideo').show( function() {
+          KTG.videos.enBlinkOnVideo.play();
         });
       }
 
-      if(target.hasClass('first-ended no-controls') && KTG.state == "cz-blink-off") {
-        KTG.videos.czBlinkVideoOff.play();
+      if(target.hasClass('first-ended no-controls') && KTG.getState() == "cz-blink-off") {
+        KTG.videos.czBlinkOffVideo.play();
       }
 
-      if(target.hasClass('first-ended no-controls') && KTG.state == "en-blink-off") {
-        KTG.videos.enBlinkVideoOff.play();
+      if(target.hasClass('first-ended no-controls') && KTG.getState() == "en-blink-off") {
+        KTG.videos.enBlinkOffVideo.play();
       }
     });
 
 
     // CZ blink videos
 
-    KTG.videos.czBlinkVideoOn.on('ended', function() {
-      $('#czBlinkVideoOn').hide();
-      $('#czBlinkVideoOff').show();
-      KTG.state = "cz-blink-off";
+    KTG.videos.czBlinkOnVideo.on('ended', function() {
+      KTG.setState("cz-blink-off");
+      $('#czBlinkOnVideo').hide();
+      $('#czBlinkOffVideo').show();
       KTG.videos.czParkVideo.currentTime(1);
     });
 
-    KTG.videos.czBlinkVideoOff.on('ended', function() {
-      $('#czBlinkVideoOff').hide( function() {
-          KTG.videos.czBlinkVideoOn.currentTime( 0 );
-          KTG.videos.czBlinkVideoOff.currentTime( 0 );
-          KTG.state = "off";
+    KTG.videos.czBlinkOffVideo.on('ended', function() {
+      KTG.setState("off");
+      $('#czBlinkOffVideo').hide( function() {
+          KTG.videos.czBlinkOnVideo.currentTime( 0 );
+          KTG.videos.czBlinkOffVideo.currentTime( 0 );
           KTG.videos.czParkVideo.currentTime(0);
       });
     });
 
     // EN blink videos
 
-    KTG.videos.enBlinkVideoOn.on('ended', function() {
-      $('#enBlinkVideoOn').hide();
-      $('#enBlinkVideoOff').show();
-      KTG.state = "en-blink-off";
+    KTG.videos.enBlinkOnVideo.on('ended', function() {
+      KTG.setState("en-blink-off");
+      $('#enBlinkOnVideo').hide();
+      $('#enBlinkOffVideo').show();
       KTG.videos.enParkVideo.currentTime(1);
     });
 
-    KTG.videos.enBlinkVideoOff.on('ended', function() {
-      $('#enBlinkVideoOff').hide( function() {
-          KTG.videos.enBlinkVideoOn.currentTime( 0 );
-          KTG.videos.enBlinkVideoOff.currentTime( 0 );
-          KTG.state = "off";
+    KTG.videos.enBlinkOffVideo.on('ended', function() {
+      KTG.setState("off");
+      $('#enBlinkOffVideo').hide( function() {
+          KTG.videos.enBlinkOnVideo.currentTime( 0 );
+          KTG.videos.enBlinkOffVideo.currentTime( 0 );
           KTG.videos.enParkVideo.currentTime(0);
       });
     });
@@ -127,7 +170,7 @@ $(function() { // runs after DOM has loaded
       $('#czParkVideo').show( function() {
           KTG.videos.czParkVideo.play();
           KTG.hideFirst();
-          KTG.state = "park-video";
+          KTG.setState("park-video");
       });
     });
 
@@ -136,7 +179,7 @@ $(function() { // runs after DOM has loaded
       $('#enParkVideo').show( function() {
           KTG.videos.enParkVideo.play();
           KTG.hideFirst();
-          KTG.state = "park-video";
+          KTG.setState("park-video");
       });
     });
 
