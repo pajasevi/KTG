@@ -5,12 +5,22 @@ $(function() { // runs after DOM has loaded
   if(Modernizr.video && !KTG.isMobile() && $.cookie('no-video') != 'true') {
     $.cookie('no-video', 'false', { path: '/' });
 
+    var videos = {
+      introVideo: videojs('introVideo'),
+      czBlinkOnVideo: videojs('czBlinkOnVideo'),
+      czBlinkOffVideo: videojs('czBlinkOffVideo'),
+      enBlinkOnVideo: videojs('enBlinkOnVideo'),
+      enBlinkOffVideo: videojs('enBlinkOffVideo'),
+      czParkVideo: videojs('czParkVideo'),
+      enParkVideo: videojs('enParkVideo')
+    }
+
     KTG.sound = document.getElementById('backgroundSound');
 
     // Functions for sound control
 
     KTG.muteSound = function() {
-        $.each(KTG.videos, function( key, value ) {
+        $.each(videos, function( key, value ) {
             value.muted(true);
             $('.mute-button').removeClass('mute-on').addClass('mute-off');
         });
@@ -18,7 +28,7 @@ $(function() { // runs after DOM has loaded
     }
 
     KTG.unMuteSound = function() {
-        $.each(KTG.videos, function( key, value ) {
+        $.each(videos, function( key, value ) {
             value.muted(false);
             $('.mute-button').removeClass('mute-off').addClass('mute-on');
         });
@@ -41,16 +51,6 @@ $(function() { // runs after DOM has loaded
         "idle" : ["czBlinkOnVideo, enBlinkOnVideo"]
       }
 
-      var videos = {
-        introVideo: videojs('introVideo'),
-        czBlinkOnVideo: videojs('czBlinkOnVideo'),
-        czBlinkOffVideo: videojs('czBlinkOffVideo'),
-        enBlinkOnVideo: videojs('enBlinkOnVideo'),
-        enBlinkOffVideo: videojs('enBlinkOffVideo'),
-        czParkVideo: videojs('czParkVideo'),
-        enParkVideo: videojs('enParkVideo')
-      }
-
       videos.czBlinkOnVideo.on('ended', function() {
         $('#czBlinkOnVideo').hide();
         $('#czBlinkOffVideo').show();
@@ -59,7 +59,7 @@ $(function() { // runs after DOM has loaded
 
       videos.czBlinkOffVideo.on('ended', function() {
         videos.czBlinkOnVideo.currentTime(0);
-        $('#czBlinkOffVideo').hide(function() {
+        $('#czBlinkOffVideo').hide(0, function() {
           videos.czBlinkOffVideo.currentTime(0);
           videos.czParkVideo.currentTime(0);
         });
@@ -73,13 +73,12 @@ $(function() { // runs after DOM has loaded
 
       videos.enBlinkOffVideo.on('ended', function() {
         videos.enBlinkOnVideo.currentTime(0);
-        $('#enBlinkOffVideo').hide(function() {
+        $('#enBlinkOffVideo').hide(0, function() {
           videos.enBlinkOffVideo.currentTime(0);
           videos.enParkVideo.currentTime(0);
         });
       });
 
-      videos.introVideo.playbackRate(100);
       videos.introVideo.on('ended', function() {
         KTG.appendFirst();
         KTG.sound.play();
@@ -127,7 +126,7 @@ $(function() { // runs after DOM has loaded
             setState('idle');
           });
 
-          $("#" + newState).show(function() {
+          $("#" + newState).show(0, function() {
             videos[newState].play();
             lastVideoState = newState;
           });
@@ -189,7 +188,7 @@ $(function() { // runs after DOM has loaded
 
     $('.lang-link.cz').on('click', function( event ) {
       event.preventDefault();
-      $('#czParkVideo').show( function() {
+      $('#czParkVideo').show(0, function() {
           videoController.enqueue('czParkVideo');
           KTG.hideFirst();
       });
@@ -197,11 +196,13 @@ $(function() { // runs after DOM has loaded
 
     $('.lang-link.en').on('click', function( event ) {
       event.preventDefault();
-      $('#enParkVideo').show( function() {
+      $('#enParkVideo').show(0, function() {
           videoController.enqueue('enParkVideo');
           KTG.hideFirst();
       });
     });
+
+    KTG.checkMute();
   }
 
 
