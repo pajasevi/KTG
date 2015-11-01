@@ -204,6 +204,41 @@ $(function() { // runs after DOM has loaded
 
     KTG.checkMute();
   }
+  else {
+    $('#video-wrap').remove();
+    $('html').addClass('video-declined');
+    $('.mute-button').remove();
+    KTG.videoDeclined = true;
+    KTG.appendFirst();
+    $.cookie('no-video', 'true', { path: '/' });
+
+    $('.lang-link.cz').on('click', function( event ) {
+      event.preventDefault();
+      window.location.href += "cz/";
+    });
+
+    $('.lang-link.en').on('click', function( event ) {
+      event.preventDefault();
+      window.location.href += "en/";
+    });
+
+    $('.lang-link.cz').on('mouseover', function( event ) {
+      $('html').addClass('cz');
+    });
+
+    $('.lang-link.cz').on('mouseout', function( event ) {
+      $('html').removeClass('cz');
+    });
+
+    $('.lang-link.en').on('mouseover', function( event ) {
+      $('html').addClass('en');
+    });
+
+    $('.lang-link.en').on('mouseout', function( event ) {
+      $('html').removeClass('en');
+    });
+
+    }
 
 
   // User Events
