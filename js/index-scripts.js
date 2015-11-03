@@ -86,10 +86,12 @@ $(function() { // runs after DOM has loaded
 
       videos.czParkVideo.on('ended', function() {
         window.location.href += "cz/";
+        KTG.appendFirst();
       });
 
       videos.enParkVideo.on('ended', function() {
         window.location.href += "en/";
+        KTG.appendFirst();
       });
 
       var queue = [];
