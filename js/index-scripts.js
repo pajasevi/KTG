@@ -42,14 +42,6 @@ $(function() { // runs after DOM has loaded
     }
 
     KTG.VideoController = function() {
-      var transitions = {
-        "introVideo": ["idle"],
-        "czBlinkOnVideo" : ["czBlinkOffVideo"],
-        "czBlinkOffVideo" : ["idle"],
-        "enBlinkOnVideo" : ["enBlinkOffVideo"],
-        "enBlinkOffVideo" : ["idle"],
-        "idle" : ["czBlinkOnVideo, enBlinkOnVideo"]
-      }
 
       videos.czBlinkOnVideo.on('ended', function() {
         $('#czBlinkOnVideo').hide();
@@ -86,11 +78,13 @@ $(function() { // runs after DOM has loaded
 
       videos.czParkVideo.on('ended', function() {
         window.location.href += "cz/";
+        $('#czParkVideo').hide();
         KTG.appendFirst();
       });
 
       videos.enParkVideo.on('ended', function() {
         window.location.href += "en/";
+        $('#enParkVideo').hide();
         KTG.appendFirst();
       });
 
@@ -190,18 +184,16 @@ $(function() { // runs after DOM has loaded
 
     $('.lang-link.cz').on('click', function( event ) {
       event.preventDefault();
-      $('#czParkVideo').show(0, function() {
-          videoController.enqueue('czParkVideo');
-          KTG.hideFirst();
-      });
+      videos.czParkVideo.currentTime(1);
+      videoController.enqueue('czParkVideo');
+      KTG.hideFirst();
     });
 
     $('.lang-link.en').on('click', function( event ) {
       event.preventDefault();
-      $('#enParkVideo').show(0, function() {
-          videoController.enqueue('enParkVideo');
-          KTG.hideFirst();
-      });
+      videos.enParkVideo.currentTime(1);
+      videoController.enqueue('enParkVideo');
+      KTG.hideFirst();
     });
 
     KTG.checkMute();
